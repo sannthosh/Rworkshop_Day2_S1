@@ -1,0 +1,512 @@
+#Twitter Key
+APIKey="I7J2zKAcFWOCN5DUrHXP7Spe6"
+#Twitter Secret
+APISecret="bC7SvPpdazrQWb1ipJtpkjBmBjw7KerjmWMVYA5uk6vgUhaLel"
+#AccessToken
+AToken="768020608487567360-DQ151QHQZTppGPn43N0wtbXYdNZf7a8"
+ATokenSecret="WqVXE5C6CE9LwMSGyyK9eFBpUMi9j6TApPxUmxVWsvKGd"
+setup_twitter_oauth(APIKey, APISecret, AToken,ATokenSecret)
+#Get UserTweets
+TrumpTweets<-rdmTweets <- userTimeline("realdonaldtrump", n=100)
+#SearchTwitter
+HCTweets <- searchTwitter('Clinton', n=100)
+#GET TWEETING SOURCE for hillary
+sources <- sapply(HCTweets, function(x) x$getStatusSource())
+sources <- gsub("</a>", "", sources)
+sources <- strsplit(sources, ">")
+sources <- sapply(sources, function(x) ifelse(length(x) > 1, x[2], x[1]))
+source_table = table(sources)
+pie(source_table[source_table > 10])
+#GET TWEETING SOURCE for trump campaign
+sources <- sapply(TrumpTweets, function(x) x$getStatusSource())
+sources <- gsub("</a>", "", sources)
+sources <- strsplit(sources, ">")
+sources <- sapply(sources, function(x) ifelse(length(x) > 1, x[2], x[1]))
+source_table = table(sources)
+pie(source_table[source_table > 10])
+#creating a word cloud
+#Convert Tweets to data frame
+df <- twListToDF(HCTweets)
+head(df)
+#create a corpus
+myCorpus <- Corpus(VectorSource(df$text))
+myCorpus <- tm_map(myCorpus, content_transformer(function(x)    iconv(enc2utf8(x), sub = "bytes")))
+#cleanup the text
+myCorpus <- tm_map(myCorpus, content_transformer(tolower))
+# remove punctuation
+myCorpus <- tm_map(myCorpus, removePunctuation)
+# remove numbers
+myCorpus <- tm_map(myCorpus, removeNumbers)
+# remove stopwords
+# keep words by removing it from stopwords
+# myStopwords <- c(stopwords('english'), "available", "via")
+myStopwords <- stopwords('english')
+myCorpus <- tm_map(myCorpus, removeWords, myStopwords)
+## Eliminating Extra White Spaces
+myCorpus<- tm_map( myCorpus, stripWhitespace)
+#remove stemdocument
+dictCorpus <- myCorpus
+#remove plurals
+library(SnowballC)
+myCorpus <- tm_map( myCorpus, stemDocument)
+#build a term document matrix
+myDtm <- TermDocumentMatrix(myCorpus, control = list(minWordLength = 1))
+#myDtm
+#find frequent terms
+findFreqTerms(myDtm, lowfreq=10)
+#find associations
+findAssocs(myDtm, "trump", 0.30)
+#create a word cloud
+#library(wordcloud)
+m <- as.matrix(myDtm)
+# calculate the frequency of words
+v <- sort(rowSums(m), decreasing=TRUE)
+myNames <- names(v)
+d <- data.frame(word=myNames, freq=v)
+wordcloud(d$word, d$freq, min.freq=3)
+#wordcloud(d$word, d$freq, min.freq=5,colors=brewer.pal(6, "Dark2"))
+install.packages(rserve)
+install.packages("rserver")
+install.packages("rserve")
+install.packages("Rserve")
+library("Rserve")
+Rserve()
+C<-2*X
+c(1, 2, 3, 4, 5, 6, 7) ->x
+C <- 2*X
+C <- 2*x
+c
+c
+x
+y <- x*2
+y
+y <- 2*x
+y
+M<-matrix(1:9, 3, 3)
+M[1,2]
+M
+M [-1,-2]
+M
+Z <- array(0, c(3,4))
+Z <- array(0, c(3,4))
+Z
+vector1 <- c(5,9,3)
+vector2 <- c(10,11,12,13,14,15)
+# Take these vectors as input to the array.
+new.array <- array(c(vector1,vector2),dim = c(3,3,2))
+print(new.array)
+result <- apply(new.array, c(1), sum)
+print(result)
+library(ggplot2)
+library(ggplot2)
+library(ggplot2)
+df <- as.DataFrame(faithful)
+if (nchar(Sys.getenv("SPARK_HOME")) < 1) {
+Sys.setenv(SPARK_HOME = "/home/spark")
+}
+library(SparkR, lib.loc = c(file.path(Sys.getenv("SPARK_HOME"), "R", "lib")))
+sparkR.session(master = "local[*]", sparkConfig = list(spark.driver.memory = "2g"))
+df <- as.DataFrame(faithful)
+if (nchar(Sys.getenv("SPARK_HOME")) < 1) {
+Sys.setenv(SPARK_HOME = "/home/spark")
+}
+library(SparkR, lib.loc = c(file.path(Sys.getenv("SPARK_HOME"), "R", "lib")))
+sparkR.session(master = "local[*]", sparkConfig = list(spark.driver.memory = "2g"))
+df <- as.DataFrame(faithful)
+View(df)
+View(df)
+head(df)
+View(df)
+C:/Program Files/spark/examples/src/main/resources/people.json
+people <- read.df("C:\Program Files/spark/examples/src/main/resources/people.json", "json")
+people <- read.df("C:/Program Files/spark/examples/src/main/resources/people.json", "json")
+View(people)
+View(people)
+View(people)
+View(people)
+people <- read.df("C:/Program Files/spark/examples/src/main/resources/people.json", "json")
+head(people)
+if (nchar(Sys.getenv("SPARK_HOME")) < 1) {
+Sys.setenv(SPARK_HOME = "/home/spark")
+}
+library(SparkR, lib.loc = c(file.path(Sys.getenv("SPARK_HOME"), "R", "lib")))
+sparkR.session(master = "local[*]", sparkConfig = list(spark.driver.memory = "2g"))
+people <- read.df("C:/Program Files/spark/examples/src/main/resources/people.json", "json")
+head(people)
+if (nchar(Sys.getenv("SPARK_HOME")) < 1) {
+Sys.setenv(SPARK_HOME = "/home/spark")
+}
+library(SparkR, lib.loc = c(file.path(Sys.getenv("SPARK_HOME"), "R", "lib")))
+sparkR.session(master = "local[*]", sparkConfig = list(spark.driver.memory = "2g"))
+people <- read.df("C:/Program Files/spark/examples/src/main/resources/people.json", "json")
+head(people)
+View(people)
+View(people)
+head(people)
+printSchema(people)
+df <- read.df("D:/ML Spark/Scala-and-Spark-Bootcamp-master/Machine_Learning_Sections/Regression/USA_Housing.csv", "csv", header = "true", inferSchema = "true", na.strings = "NA")
+df <- read.df("D:/ML Spark/Scala-and-Spark-Bootcamp-master/Machine_Learning_Sections/Regression/USA_Housing.csv", "csv", header = "true", inferSchema = "true", na.strings = "NA")
+df <- read.df("D:/ML_Spark/Scala-and-Spark-Bootcamp-master/Machine_Learning_Sections/Regression/USA_Housing.csv", "csv", header = "true", inferSchema = "true", na.strings = "NA")
+df <- read.df("D:/ML_Spark/Scala-and-Spark/Machine_Learning_Sections/Regression/USA_Housing.csv", "csv", header = "true", inferSchema = "true", na.strings = "NA")
+write.df(people, path = "people.parquet", source = "parquet", mode = "overwrite")
+write.df(people, path = "d:/people.parquet", source = "parquet", mode = "overwrite")
+if (nchar(Sys.getenv("SPARK_HOME")) < 1) {
+Sys.setenv(SPARK_HOME = "/home/spark")
+}
+library(SparkR, lib.loc = c(file.path(Sys.getenv("SPARK_HOME"), "R", "lib")))
+sparkR.session(master = "local[*]", sparkConfig = list(spark.driver.memory = "2g"))
+# Load training data
+df <- read.df("D:/data/mllib/sample_libsvm_data.txt", source = "libsvm")
+training <- df
+test <- df
+head(df)
+# Fit an binomial logistic regression model with spark.logit
+model <- spark.logit(training, label ~ features, maxIter = 10, regParam = 0.3, elasticNetParam = 0.8)
+# Model summary
+summary(model)
+# Prediction
+predictions <- predict(model, test)
+head(predictions)
+## Data Import
+CTDF.dev <- read.table("D:/DATA SCIENCE_UTKARSH_07012018/Machine Learning/Codes and Datasets/DEV_SAMPLE.csv", sep = ",", header = T)
+CTDF.holdout <- read.table("D:/DATA SCIENCE_UTKARSH_07012018/Machine Learning/Codes and Datasets/HOLDOUT_SAMPLE.csv", sep = ",", header = T)
+c(nrow(CTDF.dev), nrow(CTDF.holdout))
+str(CTDF.dev)
+## loading the library
+library(rpart)
+library(rpart.plot)
+## Target Rate
+sum(CTDF.dev$Target)/14000
+## setting the control paramter inputs for rpart
+r.ctrl = rpart.control(minsplit=100, minbucket = 10, cp = 0, xval = 5)
+## calling the rpart function to build the tree
+##m1 <- rpart(formula = Target ~ ., data = CTDF.dev[which(CTDF.dev$Holding_Period>10),-1], method = "class", control = r.ctrl)
+m1 <- rpart(formula = Target ~ ., data = CTDF.dev[,-1], method = "class", control = r.ctrl)
+m1
+library(rattle)
+install.packages("rattle")
+install.packages("RcolorBrewer")
+library(rattle)
+library(RColorBrewer)
+fancyRpartPlot(m1)
+install.packages("rattle")
+## Data Import
+CTDF.dev <- read.table("D:/DATA SCIENCE_UTKARSH_07012018/Machine Learning/Codes and Datasets/DEV_SAMPLE.csv", sep = ",", header = T)
+CTDF.holdout <- read.table("D:/DATA SCIENCE_UTKARSH_07012018/Machine Learning/Codes and Datasets/HOLDOUT_SAMPLE.csv", sep = ",", header = T)
+c(nrow(CTDF.dev), nrow(CTDF.holdout))
+str(CTDF.dev)
+## loading the library
+library(rpart)
+library(rpart.plot)
+## Target Rate
+sum(CTDF.dev$Target)/14000
+## setting the control paramter inputs for rpart
+r.ctrl = rpart.control(minsplit=100, minbucket = 10, cp = 0, xval = 5)
+## calling the rpart function to build the tree
+##m1 <- rpart(formula = Target ~ ., data = CTDF.dev[which(CTDF.dev$Holding_Period>10),-1], method = "class", control = r.ctrl)
+m1 <- rpart(formula = Target ~ ., data = CTDF.dev[,-1], method = "class", control = r.ctrl)
+m1
+install.packages("rattle")
+## Data Import
+CTDF.dev <- read.table("D:/DATA SCIENCE_UTKARSH_07012018/Machine Learning/Codes and Datasets/DEV_SAMPLE.csv", sep = ",", header = T)
+CTDF.holdout <- read.table("D:/DATA SCIENCE_UTKARSH_07012018/Machine Learning/Codes and Datasets/HOLDOUT_SAMPLE.csv", sep = ",", header = T)
+## Data Import
+CTDF.dev <- read.table("D:/DATA SCIENCE_UTKARSH_07012018/Machine Learning/Codes and Datasets/DEV_SAMPLE.csv", sep = ",", header = T)
+CTDF.holdout <- read.table("D:/DATA SCIENCE_UTKARSH_07012018/Machine Learning/Codes and Datasets/HOLDOUT_SAMPLE.csv", sep = ",", header = T)
+c(nrow(CTDF.dev), nrow(CTDF.holdout))
+str(CTDF.dev)
+## loading the library
+library(rpart)
+library(rpart.plot)
+#setwd ("D:/utkarsh/Datafile/")
+#getwd()
+install.package("twitteR", dependencies = TRUE)
+#setwd ("D:/utkarsh/Datafile/")
+#getwd()
+install.packages("twitteR", dependencies = TRUE)
+## Data Import
+CTDF.dev <- read.table("D:/DATA SCIENCE_UTKARSH_07012018/Machine Learning/Codes and Datasets/DEV_SAMPLE.csv", sep = ",", header = T)
+CTDF.holdout <- read.table("D:/DATA SCIENCE_UTKARSH_07012018/Machine Learning/Codes and Datasets/HOLDOUT_SAMPLE.csv", sep = ",", header = T)
+c(nrow(CTDF.dev), nrow(CTDF.holdout))
+str(CTDF.dev)
+## loading the library
+library(rpart)
+library(rpart.plot)
+## installing rpart package for CART
+install.packages("rpart")
+install.packages("rpart")
+install.packages("rpart.plot")
+## loading the library
+library(rpart)
+library(rpart.plot)
+## Target Rate
+sum(CTDF.dev$Target)/14000
+## setting the control paramter inputs for rpart
+r.ctrl = rpart.control(minsplit=100, minbucket = 10, cp = 0, xval = 5)
+## calling the rpart function to build the tree
+##m1 <- rpart(formula = Target ~ ., data = CTDF.dev[which(CTDF.dev$Holding_Period>10),-1], method = "class", control = r.ctrl)
+m1 <- rpart(formula = Target ~ ., data = CTDF.dev[,-1], method = "class", control = r.ctrl)
+m1
+install.packages("rattle")
+install.packages("RcolorBrewer")
+library(rattle)
+install.packages("RcolorBrewer")
+library(rattle)
+library(RColorBrewer)
+fancyRpartPlot(m1)
+## to find how the tree performs
+printcp(m1)
+plotcp(m1)
+##rattle()
+## Pruning Code
+ptree<- prune(m1, cp= 0.0015 ,"CP")
+printcp(ptree)
+fancyRpartPlot(ptree, uniform=TRUE,  main="Pruned Classification Tree")
+View(CTDF.dev)
+## Scoring syntax
+CTDF.dev$predict.class <- predict(m1, CTDF.dev, type="class")
+CTDF.dev$predict.score <- predict(m1, CTDF.dev)
+View(CTDF.dev)
+head(CTDF.dev)
+## deciling code
+decile <- function(x){
+deciles <- vector(length=10)
+for (i in seq(0.1,1,.1)){
+deciles[i*10] <- quantile(x, i, na.rm=T)
+}
+return (
+ifelse(x<deciles[1], 1,
+ifelse(x<deciles[2], 2,
+ifelse(x<deciles[3], 3,
+ifelse(x<deciles[4], 4,
+ifelse(x<deciles[5], 5,
+ifelse(x<deciles[6], 6,
+ifelse(x<deciles[7], 7,
+ifelse(x<deciles[8], 8,
+ifelse(x<deciles[9], 9, 10
+))))))))))
+}
+class(CTDF.dev$predict.score)
+## deciling
+CTDF.dev$deciles <- decile(CTDF.dev$predict.score[,2])
+View(CTDF.dev)
+sqrt(-17)
+x <- c("a", "b", "c")
+as.numeric(x)
+# Poisson
+dpois(7,10)
+# Poisson
+dpois(7,10, log - T)
+# Poisson
+dpois(7,10, log = T)
+# Poisson
+dpois(7,10, log = F)
+# Poisson
+dpois(7,10)
+# Poisson
+dpois(0:20,10)
+# Poisson
+poi <- dpois(0:20,10)
+barplot(poi)
+# Poisson
+poi <- dpois(0:20,20)
+barplot(poi)
+# Poisson
+poi <- dpois(0:20,40)
+barplot(poi)
+# Poisson
+poi <- dpois(0:40,20)
+barplot(poi)
+# Poisson
+dpois(11,20)
+# Poisson
+dpois(17,20)
+# Poisson
+dpois(17,20) * 100
+# Poisson
+dpois(20,20) * 100
+# Poisson
+dpois(7,20) * 100
+# Poisson
+dpois(7,20) * 100
+dpois(7,20
+)
+# Poisson
+dpois(10,10) * 100
+# Poisson
+dpois(10,10)
+# Poisson
+dpois(0:10,10)
+poi <- dpois(0:20,40)
+class(poi)
+sum(poi, na.rm = TRUE)
+# Poisson
+y <- dpois(0:10,10)
+sum(y,na.rm = TRUE)
+1-sum(y,na.rm = TRUE)
+dpois(7,10)
+dpois(7,10)
+poi <- dpois(0:30,10)
+barplot(poi)
+poi <- dpois(0:20,10)
+barplot(poi)
+###negative binomial
+size=17
+p=0.5
+r=3
+dnbinom(0:3,size,p,1)
+dnbinom(0:3,size,0.5,0.5)
+dnbinom(3,size,0.5,0.5)
+dnbinom(3,17,0.5,0.5)
+###negative binomial
+require(graphics)
+x <- 0:11
+dnbinom(x, size = 1, prob = 1/2) * 2^(1 + x)
+dnbinom(10-3, size = 3, prob = 0.40)
+dnbinom(10-3, size = 3, prob = 0.40)
+dnbinom(10-3, size = 3, prob = 0.09)
+###negative binomial
+require(graphics)
+x <- 0:11
+dnbinom(x, size = 1, prob = 1/2) * 2^(1 + x)
+##### Geometric distribution
+dgeom(6,0.3)
+##### Geometric distribution
+dgeom(0:6,0.3)
+##### Geometric distribution
+dgeom(0:6,1/3)
+##### Geometric distribution
+dgeom(6,1/3)
+##### Geometric distribution
+dgeom(6,0.3)
+##### Geometric distribution
+dgeom(6,0.33)
+##### Geometric distribution
+dgeom(6,0.28)
+##### Geometric distribution
+dgeom(6,0.2)
+##### Geometric distribution
+dgeom(6,0.3)
+# Poisson
+dpois(7,10)
+# Poisson
+dpois(7,10)
+# Poisson
+dpois(6,10)
+# Poisson
+dpois(18,10)
+# Poisson
+dpois(18,10) * 100
+# Poisson
+dpois(0:7,10)
+# Poisson
+y <- dpois(0:7,10)
+sum(y)
+# Poisson
+sum(dpois(0:7,10))
+poi <- dpois(0:20,10)
+barplot(poi)
+poi <- dpois(0:40,10)
+barplot(poi)
+pois <- sum(dpois(0:10,10))
+pois
+resu <- 1- pois
+resu
+###negative binomial
+dnbinom(10-3, size = 3, prob = 0.09)
+###negative binomial
+dnbinom(27-3, size = 3, prob = 0.09)
+###negative binomial
+dnbinom(33-3, size = 3, prob = 0.09)
+###negative binomial
+dnbinom(10-3, size = 3, prob = 0.09)
+##### Geometric distribution
+dgeom(6,0.3)
+# Poisson
+dpois(7,10)
+poi <- dpois(0:20,10)
+barplot(poi)
+poi <- dpois(0:40,10)
+barplot(poi)
+dpois(0:7,10)
+sum(dpois(0:7,10))
+sum(dpois(0:10,10))
+###negative binomial
+dnbinom(10-3, size = 3, prob = 0.09)
+##### Geometric distribution
+dgeom(6,0.3)
+if (nchar(Sys.getenv("SPARK_HOME")) < 1) {
+Sys.setenv(SPARK_HOME = "c:/spark")
+}
+library(SparkR, lib.loc = c(file.path(Sys.getenv("SPARK_HOME"), "R", "lib")))
+df <- as.DataFrame(faithful)
+sparkR.session(master = "local[*]", sparkConfig = list(spark.driver.memory = "1g"))
+sparkR.session(master = "local[*]", sparkConfig = list(spark.driver.memory = "1g"))
+df <- as.DataFrame(faithful)
+head(df)
+people <- read.df("C:/Program Files/spark/examples/src/main/resources/people.json", "json")
+head(people)
+printSchema(people)
+df <- read.df("D:/ML_Spark/LB_Spark/Clean-USA-Housing.csv", "csv", header = "true", inferSchema = "true", na.strings = "NA")
+head(df)
+write.df(people, path = "d:/people.parquet", source = "parquet", mode = "overwrite")
+library(ggplot2)
+Sys.setenv(SPARK_HOME = "/home/spark")
+if (nchar(Sys.getenv("SPARK_HOME")) < 1) {
+Sys.setenv(SPARK_HOME = "/home/spark")
+}
+library(SparkR, lib.loc = c(file.path(Sys.getenv("SPARK_HOME"), "R", "lib")))
+sparkR.session(master = "local[*]", sparkConfig = list(spark.driver.memory = "2g"))
+# Load training data
+df <- read.df("D:/data/mllib/sample_libsvm_data.txt", source = "libsvm")
+head(df)
+training <- df
+test <- df
+# Fit an binomial logistic regression model with spark.logit
+model <- spark.logit(training, label ~ features, maxIter = 10, regParam = 0.3, elasticNetParam = 0.8)
+# Model summary
+summary(model)
+# Prediction
+predictions <- predict(model, test)
+head(predictions)
+head(df)
+library(SparkR, lib.loc = c(file.path(Sys.getenv("SPARK_HOME"), "R", "lib")))
+sparkR.session(master = "local[*]", sparkConfig = list(spark.driver.memory = "2g"))
+# Fit a k-means model with spark.kmeans
+t <- as.data.frame(Titanic)
+training <- createDataFrame(t)
+df_list <- randomSplit(training, c(7,3), 2)
+kmeansDF <- df_list[[1]]
+kmeansTestDF <- df_list[[2]]
+kmeansTestDF <- df_list[[2]]
+kmeansModel <- spark.kmeans(kmeansDF, ~ Class + Sex + Age + Freq,
+k = 3)
+# Model summary
+summary(kmeansModel)
+# Get fitted result from the k-means model
+head(fitted(kmeansModel))
+fitted(kmeansModel)
+kmeansModel
+# Get fitted result from the k-means model
+head(fitted(kmeansModel))
+# Prediction
+kmeansPredictions <- predict(kmeansModel, kmeansTestDF)
+head(kmeansPredictions)
+a <- 10
+print((a))
+a
+b <- 20
+b
+b <- 20
+b <- 20
+b
+2
+<
+?
+setwd("E:/data")
+getwd()
+getwd()
+setwd("E:/Desktop Backups/17 Desktop 9Sep18/iPrimed/TTT/DAY 2/Session 1/Code")
+setwd("E:/Desktop Backups/17 Desktop 9Sep18/iPrimed/Demo")
+setwd("E:/Desktop Backups/17 Desktop 9Sep18/iPrimed/TTT/DAY 2/Session 1/Code")
+setwd("E:/Desktop Backups/17 Desktop 9Sep18/iPrimed/TTT/DAY 2/Session 1/Code")
